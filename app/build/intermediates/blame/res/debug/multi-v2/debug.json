@@ -9,27 +9,8 @@
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "55",
-                        "endOffsets": "106"
-                    }
-                },
-                {
-                    "source": "D:\\Coding\\UofG-Projects\\Dissertation\\POCs\\Hosek_OpenCV\\Code\\eye_tracking_updated_android\\openCVLibrary343\\build\\intermediates\\packaged_res\\debug\\values\\values.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "9",
-                        "endColumns": "24",
-                        "endOffsets": "361"
-                    },
-                    "to": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "111",
-                        "endLines": "10",
-                        "endColumns": "24",
-                        "endOffsets": "417"
+                        "endColumns": "49",
+                        "endOffsets": "100"
                     }
                 }
             ]

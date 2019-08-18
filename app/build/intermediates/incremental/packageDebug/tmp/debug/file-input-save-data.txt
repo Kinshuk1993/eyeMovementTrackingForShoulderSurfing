@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Aug 09 03:59:08 BST 2019
+#Sun Aug 18 22:54:30 BST 2019
 4.path=lib/mips64/libopencv_java3.so
 8.set=NATIVE_RESOURCE
 6.path=lib/mips/libopencv_java3.so
