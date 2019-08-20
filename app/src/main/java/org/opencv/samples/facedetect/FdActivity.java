@@ -458,25 +458,25 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 //                Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 255,
 //                        255));
         if ((matchLoc_tx.x-area.tl().x) < 130) {
-            Log.i("Kinshuk", eyeType + " looking right");
+//            Log.i("Kinshuk", eyeType + " looking right");
             Imgproc.putText(mRgba, eyeType + " looking right " + (matchLoc_tx.x-area.tl().x),
                     new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
                     Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
                             255));
         } else if ((matchLoc_tx.x-area.tl().x) > 160){
-            Log.i("Kinshuk", eyeType + " looking left");
+//            Log.i("Kinshuk", eyeType + " looking left");
             Imgproc.putText(mRgba, eyeType + " looking left " + (matchLoc_tx.x-area.tl().x),
                     new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
                     Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
                             255));
         } else if ((matchLoc_tx.x-area.tl().x) > 130 && ((matchLoc_tx.x-area.tl().x) < 160)){
-            Log.i("Kinshuk", eyeType + " looking straight");
+//            Log.i("Kinshuk", eyeType + " looking straight");
             Imgproc.putText(mRgba, eyeType + " looking straight " + (matchLoc_tx.x-area.tl().x),
                     new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
                     Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
                             255));
         } else {
-            Log.i("Kinshuk", eyeType + " looking random place");
+//            Log.i("Kinshuk", eyeType + " looking random place");
             Imgproc.putText(mRgba, eyeType + " looking random place " + (matchLoc_tx.x-area.tl().x),
                     new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
                     Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
