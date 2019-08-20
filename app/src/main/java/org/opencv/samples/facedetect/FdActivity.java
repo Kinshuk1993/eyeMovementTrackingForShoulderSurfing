@@ -309,7 +309,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 
 //            Log.i("Kinshuk printing text in eye rectangle: ", "[" + center.x + "," + center.y + "] - for face number: " + i);
             Imgproc.putText(mRgba, "[" + center.x + "," + center.y + "]",
-                    new Point(center.x + 20, center.y + 20),
+                    new Point(center.x + 60, center.y + 60),
                     Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 255,
                             255));
 
@@ -327,18 +327,18 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
                     (int) (r.y + (r.height / 4.5)),
                     (r.width - 2 * r.width / 16) / 2, (int) (r.height / 3.0));
             Imgproc.rectangle(mRgba, eyearea_left.tl(), eyearea_left.br(),
-                    new Scalar(0, 165, 255, 255), 2);
+                    new Scalar(0, 255, 0, 255), 2);
             Imgproc.rectangle(mRgba, eyearea_right.tl(), eyearea_right.br(),
-                    new Scalar(0, 165, 255, 255), 2);
+                    new Scalar(0, 255, 0, 255), 2);
 
-            if (learn_frames < 50) {
+            if (learn_frames < 100) {
                 teplateR = get_template(mJavaDetectorEye, eyearea_right, 24);
                 teplateL = get_template(mJavaDetectorEye, eyearea_left, 24);
                 learn_frames++;
             } else {
                 // Learning finished, use the new templates for template matching
-                match_eye(eyearea_right, teplateR, method);
-                match_eye(eyearea_left, teplateL, method);
+                match_eye(eyearea_right, teplateR, method, "right");
+                match_eye(eyearea_left, teplateL, method, "left");
 
             }
 
@@ -402,7 +402,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 
     }
 
-    private void match_eye(Rect area, Mat mTemplate, int type) {
+    private void match_eye(Rect area, Mat mTemplate, int type, String eyeType) {
         Point matchLoc;
         Mat mROI = mGray.submat(area);
         int result_cols = mROI.cols() - mTemplate.cols() + 1;
@@ -418,22 +418,19 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
                 Imgproc.matchTemplate(mROI, mTemplate, mResult, Imgproc.TM_SQDIFF);
                 break;
             case TM_SQDIFF_NORMED:
-                Imgproc.matchTemplate(mROI, mTemplate, mResult,
-                        Imgproc.TM_SQDIFF_NORMED);
+                Imgproc.matchTemplate(mROI, mTemplate, mResult, Imgproc.TM_SQDIFF_NORMED);
                 break;
             case TM_CCOEFF:
                 Imgproc.matchTemplate(mROI, mTemplate, mResult, Imgproc.TM_CCOEFF);
                 break;
             case TM_CCOEFF_NORMED:
-                Imgproc.matchTemplate(mROI, mTemplate, mResult,
-                        Imgproc.TM_CCOEFF_NORMED);
+                Imgproc.matchTemplate(mROI, mTemplate, mResult, Imgproc.TM_CCOEFF_NORMED);
                 break;
             case TM_CCORR:
                 Imgproc.matchTemplate(mROI, mTemplate, mResult, Imgproc.TM_CCORR);
                 break;
             case TM_CCORR_NORMED:
-                Imgproc.matchTemplate(mROI, mTemplate, mResult,
-                        Imgproc.TM_CCORR_NORMED);
+                Imgproc.matchTemplate(mROI, mTemplate, mResult, Imgproc.TM_CCORR_NORMED);
                 break;
         }
 
@@ -446,13 +443,47 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
         }
 
         Point matchLoc_tx = new Point(matchLoc.x + area.x, matchLoc.y + area.y);
-        Point matchLoc_ty = new Point(matchLoc.x + mTemplate.cols() + area.x,
-                matchLoc.y + mTemplate.rows() + area.y);
-
+        Point matchLoc_ty = new Point(matchLoc.x + mTemplate.cols() + area.x, matchLoc.y + mTemplate.rows() + area.y);
+//        Log.i("Kinshuk matchLoc_tx x", String.valueOf(matchLoc_tx.x) + " - " + eyeType);
+//        Log.i("Kinshuk matchLoc_tx y", String.valueOf(matchLoc_tx.y) + " - " + eyeType);
+//        Log.i("Kinshuk matchLoc_ty x", String.valueOf(matchLoc_ty.x) + " - " + eyeType);
+//        Log.i("Kinshuk matchLoc_ty y", String.valueOf(matchLoc_ty.y) + " - " + eyeType);
+//        Log.i("Kinshuk printing", eyeType + "[" + (matchLoc_tx.x-matchLoc.x) + "," + (matchLoc_tx.y-matchLoc.y) + "," + (matchLoc_ty.x-matchLoc.x) + "," + (matchLoc_ty.y-matchLoc.y) + "]");
+//        Imgproc.putText(mRgba, eyeType + " [" + (matchLoc_tx.x-area.x) + "," + (matchLoc_tx.y-area.y) + "," + (matchLoc_ty.x-area.x) + "," + (matchLoc_ty.y-area.y) + "]",
+//                new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
+//                Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
+//                        255));
+//        Imgproc.putText(mRgba, eyeType + " [" + (matchLoc_tx.x-area.tl().x) + "," + (matchLoc_tx.y-area.tl().y) + "," + (matchLoc_ty.x-area.tl().x) + "," + (matchLoc_ty.y-area.tl().y) + "]",
+//                new Point(matchLoc_tx.x + 80, matchLoc_ty.y + 80),
+//                Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 255,
+//                        255));
+        if ((matchLoc_tx.x-area.tl().x) < 130) {
+            Log.i("Kinshuk", eyeType + " looking right");
+            Imgproc.putText(mRgba, eyeType + " looking right " + (matchLoc_tx.x-area.tl().x),
+                    new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
+                    Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
+                            255));
+        } else if ((matchLoc_tx.x-area.tl().x) > 160){
+            Log.i("Kinshuk", eyeType + " looking left");
+            Imgproc.putText(mRgba, eyeType + " looking left " + (matchLoc_tx.x-area.tl().x),
+                    new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
+                    Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
+                            255));
+        } else if ((matchLoc_tx.x-area.tl().x) > 130 && ((matchLoc_tx.x-area.tl().x) < 160)){
+            Log.i("Kinshuk", eyeType + " looking straight");
+            Imgproc.putText(mRgba, eyeType + " looking straight " + (matchLoc_tx.x-area.tl().x),
+                    new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
+                    Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
+                            255));
+        } else {
+            Log.i("Kinshuk", eyeType + " looking random place");
+            Imgproc.putText(mRgba, eyeType + " looking random place " + (matchLoc_tx.x-area.tl().x),
+                    new Point(matchLoc_tx.x + 40, matchLoc_ty.y + 40),
+                    Core.FONT_HERSHEY_SIMPLEX, 0.7, new Scalar(255, 255, 0,
+                            255));
+        }
         Imgproc.rectangle(mRgba, matchLoc_tx, matchLoc_ty, new Scalar(255, 255, 0, 255));
         Rect rec = new Rect(matchLoc_tx, matchLoc_ty);
-
-
     }
 
     private Mat get_template(CascadeClassifier clasificator, Rect area, int size) {
